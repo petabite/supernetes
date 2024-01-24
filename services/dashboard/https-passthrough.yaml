@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: dashboard
+  namespace: supernetes
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: dashboard-kubernetes-dashboard
+          namespace: supernetes
+          port: https
+  tls:
+    passthrough: true

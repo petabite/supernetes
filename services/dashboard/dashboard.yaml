@@ -1,0 +1,17 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: dashboard
+  namespace: supernetes
+spec:
+  repo: https://kubernetes.github.io/dashboard/
+  chart: kubernetes-dashboard
+  targetNamespace: supernetes
+  valuesContent: |-
+    nginx:
+      enabled: false
+    app:
+      ingress:
+        enabled: false
+      labels:
+        app: dashboard

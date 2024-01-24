@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: dashboard-transport
+  namespace: supernetes
+spec:
+  serverName: "dashboard.isupinthe.cloud"
+  insecureSkipVerify: true
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+  namespace: supernetes
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: "Host(`dashboard.isupinthe.cloud`)"
+      kind: Rule
+      services:
+        - name: dashboard-kubernetes-dashboard
+          port: 443
+          serversTransport: dashboard-transport
+  tls:
+    secretName: dashboard-http-cert
