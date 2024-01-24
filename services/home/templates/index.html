@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<div class="container">
+    <div class="left">
+        <img class="img" src="{{ url_for('static', filename='img/supernetes.png') }}" alt="supernetes">
+    </div>
+    <div class="right">
+        <div class="title">
+            <h1><em>supernetes</em></h1>
+            <h2>is up in the cloud.</h2>
+        </div>
+        <div class="stats">
+            <div class="label">
+                <h3>nodes:</h3>
+                <h3>namespaces:</h3>
+                <h3>pods:</h3>
+                <h3>deployments:</h3>
+                <h3>cron jobs:</h3>
+                <h3>services:</h3>
+                <h3>ingresses:</h3>
+                <h3>pvcs:</h3>
+            </div>
+            <div class="value">
+                <h4>{{nodes}}</h4>
+                <h4>{{namespaces}}</h4>
+                <h4>{{pods}}</h4>
+                <h4>{{deployments}}</h4>
+                <h4>{{cronjobs}}</h4>
+                <h4>{{services}}</h4>
+                <h4>{{ingresses}}</h4>
+                <h4>{{pvcs}}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
