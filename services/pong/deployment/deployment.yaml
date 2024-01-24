@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: pong
+  namespace: supernetes
+  labels:
+    app: pong
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pong
+  template:
+    metadata:
+      labels:
+        app: pong
+    spec:
+      containers:
+        - name: pong
+          image: sjc.ocir.io/axlfudrjenut/supernetes/pong:latest 
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+          ports:
+            - name: http
+              containerPort: 80
