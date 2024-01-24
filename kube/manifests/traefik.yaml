@@ -1,0 +1,36 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  chart: https://10.0.0.10:6443/static/charts/traefik-21.2.1+up21.2.0.tgz
+  targetNamespace: kube-system
+  valuesContent: |-
+    global:
+      systemDefaultRegistry: ""
+    image:
+      repository: rancher/mirrored-library-traefik
+      tag: 2.9.10
+    podAnnotations:
+      prometheus.io/port: "8082"
+      prometheus.io/scrape: "true"
+    priorityClassName: system-cluster-critical
+    # providers:
+    #   kubernetesIngress:
+    #     publishedService:
+    #       enabled: true
+    service:
+      ipFamilyPolicy: PreferDualStack
+    tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+      operator: Exists
+    additionalArguments:
+    - --providers.kubernetesingress.ingressendpoint.ip=192.9.248.180
+ 

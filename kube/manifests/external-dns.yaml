@@ -1,0 +1,23 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: external-dns
+  namespace: kube-system
+spec:
+  repo: https://kubernetes-sigs.github.io/external-dns/
+  chart: external-dns
+  targetNamespace: kube-system
+  valuesContent: |-
+    provider: cloudflare
+    sources: 
+      - ingress
+    domainFilters:
+      - isupinthe.cloud
+    extraArgs:
+      - --cloudflare-proxied
+    env:
+    - name: CF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: cloudflare-api-token
+          key: token

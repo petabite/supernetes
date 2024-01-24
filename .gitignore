@@ -1,3 +1,7 @@
+# Secret sauce
+core/
+dns/
+
 # Local .terraform directories
 **/.terraform/*
 
@@ -32,3 +36,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# General
+.DS_Store
