@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: root
+  namespace: supernetes
+spec:
+  rules:
+    - host: isupinthe.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: root
+                port:
+                  name: http
