@@ -13,7 +13,7 @@ spec:
       repository: rancher/mirrored-library-traefik
       tag: 2.9.10
     podAnnotations:
-      prometheus.io/port: "8082"
+      prometheus.io/port: "9100"
       prometheus.io/scrape: "true"
     priorityClassName: system-cluster-critical
     # providers:
@@ -31,6 +31,50 @@ spec:
     - effect: NoSchedule
       key: node-role.kubernetes.io/master
       operator: Exists
+    ingressRoute:
+      dashboard:
+        matchRule: Host(`traefik.isupinthe.cloud`)
+        middlewares:
+        - name: traefik-auth
     additionalArguments:
     - --providers.kubernetesingress.ingressendpoint.ip=192.9.248.180
- 
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-auth
+  namespace: kube-system
+spec:
+  basicAuth:
+    secret: traefik-auth-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-dashboard
+  namespace: kube-system
+spec:
+  ports:
+    - name: traefik
+      port: 80
+      targetPort: traefik
+  selector:
+    app.kubernetes.io/name: traefik
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-dashboard
+  namespace: kube-system
+spec:
+  rules:
+    - host: traefik.isupinthe.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: traefik-dashboard
+                port:
+                  name: traefik
