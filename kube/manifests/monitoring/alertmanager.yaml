@@ -1,0 +1,29 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  repo: https://prometheus-community.github.io/helm-charts
+  chart: alertmanager
+  targetNamespace: monitoring
+  valuesContent: |
+    ingress:
+      enabled: true
+      hosts:
+        - host: alerts.isupinthe.cloud
+          paths:
+            - path: /
+              pathType: Prefix
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.middlewares: monitoring-alertmanager-auth@kubernetescrd
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: alertmanager-auth
+  namespace: monitoring
+spec:
+  basicAuth:
+    secret: alertmanager-auth-secret
