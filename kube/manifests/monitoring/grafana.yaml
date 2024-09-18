@@ -38,14 +38,14 @@ spec:
           editable: true
           options:
             path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
-        - name: 'traefik'
+        - name: 'system'
           orgId: 1
           folder: ''
           type: file
           disableDeletion: true
           editable: true
           options:
-            path: /var/lib/grafana/dashboards/traefik
+            path: /var/lib/grafana/dashboards/system
     dashboards:
       grafana-dashboards-kubernetes:
         k8s-system-api-server:
@@ -66,7 +66,10 @@ spec:
         k8s-views-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           token: ''
-      traefik:
+      system:
         traefik-dashboard:
           url: https://raw.githubusercontent.com/traefik/traefik/master/contrib/grafana/traefik-kubernetes.json
+          token: ''
+        node-exporter:
+          url: https://raw.githubusercontent.com/rfmoz/grafana-dashboards/master/prometheus/node-exporter-full.json
           token: ''
